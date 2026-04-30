@@ -1,0 +1,37 @@
+PEP Game - Technology Stack & Architecture Notes
+
+This project was built entirely from scratch without using any external game engines (like Unity or Godot) or heavy JavaScript libraries (like React, PixiJS, or ThreeJS). By relying on native web technologies, the game maintains a zero-dependency architecture that runs instantly in any modern web browser.
+
+1. HTML5 (Structure & Canvas)
+------------------------------
+- HTML5 Canvas (<canvas>): The core of the visual rendering engine. All gameplay, including the dark overlay, the flashlight cutout, the memory shards, and the vortex exit doors, are mathematically drawn frame-by-frame onto the Canvas.
+- SVG Filters & Elements: Used for two main purposes: 
+  1. Injecting a gritty `feTurbulence` static noise filter that sits over the entire screen to create an unsettling, claustrophobic VHS/CRT aesthetic.
+  2. The custom HUD icons (Door, Hourglass, Eye, Galaxy) which are written as pure inline Feather-style scalable vector paths.
+- UI Overlays: Floating DOM elements layered on top of the Canvas using absolute positioning and z-indexes to handle the HUD, tooltips, and interstitial story text (maintaining accessibility and crisp rendering outside the canvas pixels).
+
+2. CSS3 (Styling, Animations, & Webflow Aesthetics)
+---------------------------------------------------
+- Modern Web Animation: Instead of relying on an entire library like GSAP, raw CSS `@keyframes` with `cubic-bezier` easing curves are used. This creates the elastic, premium "Webflow" slide-up effects seen on the start screen.
+- Glassmorphism & Blurs: `backdrop-filter: blur(10px)` is applied to the UI elements and tooltips to give them a high-end, translucent graphical feel.
+- Typography: `@font-face` is used to natively import the "Pricedown" font. Advanced CSS features like `color: transparent` and `-webkit-text-stroke: 2px rgba(255,255,255,0.9)` are used to create the striking modern hollow-text aesthetic.
+
+3. JavaScript / Vanilla ES6 (Game Logic & Engine)
+-------------------------------------------------
+The codebase utilizes a modular Class-based ES6 architecture (InputSys, AudioSys, LevelManager, PhysicsSys).
+- 2D Canvas Context API (Rendering): Uses complex state management (`ctx.save()`, `ctx.restore()`), procedural clipping (`globalCompositeOperation`), smooth radial gradients, and matrix rotation (`ctx.rotate()`, `ctx.translate()`) to calculate the 3D-like floating geometry of the memory shards and simulate dynamic lighting.
+- The Game Loop: A custom `requestAnimationFrame` loop handles decoupled physics, logic, and rendering updates by calculating precise delta-time (`dt`) for silky 60+ FPS movement.
+
+4. Advanced Data Structures (Optimization)
+------------------------------------------
+To ensure performance scales elegantly in Vanilla JS without hardware acceleration lag, the game implements several core algorithmic data structures:
+- Spatial Hash Grids: Organizes objects in 2D space. The engine uses this grid to instantly calculate which entities are inside the flashlight's beam without looping through every single entity on the map.
+- Graph Theory & Depth First Search (DFS): Under the hood, advanced level generation algorithms leverage graph traversal to create winding paths and procedural "maze" layouts for the user to explore.
+- Linked Lists: Manages temporal queuing systems. For example, when the flashlight "flickers" under low sanity, the patterns are queued up as linked lists so the engine can easily dequeue and execute rapid lighting changes without array-shifting overhead.
+- Binary Search Tree (BST): Tracks object Z-indexing, guaranteeing that overlapping UI and entities are rendered simultaneously in the correct painter's algorithm order.
+
+5. Web Audio API (Procedural Sound Design)
+------------------------------------------
+Instead of loading heavy, bandwidth-intensive MP3/WAV files, the entire soundscape is synthetically generated using JavaScript's native AudioContext.
+- Oscillators: Sine, Square, and Sawtooth waves are programmatically mixed mathematically to synthesize ambient droning sounds, high-pitched error squeals (if a locked portal is clicked), and the electrical humming of the flashlight.
+- Adaptive Audio (Sanity DDA): GainNodes and BiquadFilterNodes actively listen to the player's internal 'Sanity' variable algorithm state. As Sanity drops due to mistakes, the code dynamically applies extreme distortion filters and pitch-bends the frequencies to increase organic tension.
