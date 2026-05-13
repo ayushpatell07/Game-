@@ -22,6 +22,7 @@ class Clue extends Entity {
         this.collected = false;
         this.burstTime = 0;
         this.hue = Math.random() * 360; 
+        this.isClue = true;
     }
 
     interact(player, levelManager) {

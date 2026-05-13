@@ -219,7 +219,7 @@ window.LevelManager = {
         const isTimerLevel = (levelConfig.modifiers && levelConfig.modifiers.includes('HiddenTimer')) || levelConfig.modifier === 'HiddenTimer';
         if (isTimerLevel) {
             this.hasTimer = true;
-            const numFragments = this.currentEntities.filter(e => e.constructor.name === 'Clue' && !e.isFake).length;
+            const numFragments = this.currentEntities.filter(e => e.isClue && !e.isFake).length;
             this.timeRemaining = numFragments * 10;
         } else {
             this.hasTimer = false;
@@ -236,8 +236,8 @@ window.LevelManager = {
     },
 
     onClueFound(orderValue) {
-        const remaining = this.currentEntities.filter(e => e.constructor.name === 'Clue' && !e.isFake && !e.collected).length;
-        const total = this.currentEntities.filter(e => e.constructor.name === 'Clue' && !e.isFake).length;
+        const remaining = this.currentEntities.filter(e => e.isClue && !e.isFake && !e.collected).length;
+        const total = this.currentEntities.filter(e => e.isClue && !e.isFake).length;
         const collected = total - remaining;
         
         if (remaining > 0) {
