@@ -1,0 +1,276 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Pricedown';
+    src: url('https://db.onlinewebfonts.com/t/12229560f8df9decbc6f626a575dbef8.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; 
+    background-color: #0b0b1a; 
+    background-image: 
+        linear-gradient(rgba(0, 255, 255, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.15) 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-position: center center;
+    color: #fff;
+    font-family: "Pricedown", "Impact", "Arial Black", sans-serif;
+    user-select: none;
+    touch-action: none;
+    cursor: none; 
+    animation: gridMove 2s linear infinite;
+}
+
+@keyframes gridMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 50px 50px; }
+}
+
+#root {
+    width: 100vw;
+    height: 100vh;
+}
+
+#game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Gritty visual noise overlay */
+#noise-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0.15;
+    background: transparent;
+    filter: url(#noise);
+    mix-blend-mode: overlay;
+}
+
+#ui-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Let clicks pass through to canvas */
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#symbol-display {
+    font-size: 4rem;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+#symbol-display.show {
+    opacity: 0.8;
+}
+
+/* Subtle vignette effect */
+#game-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.95) 90%, #000 100%);
+    z-index: 15;
+}
+
+#start-screen {
+    position: absolute;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #000;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    cursor: default;
+}
+#start-screen h1 {
+    font-size: 5rem; 
+    margin-bottom: 40px; 
+    letter-spacing: 5px;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.9);
+    text-shadow: none;
+    animation: fadeUpTitle 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    text-align: center;
+}
+
+@keyframes fadeUpTitle {
+    0% { opacity: 0; transform: translateY(80px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+#start-btn {
+    padding: 20px 50px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(10px);
+    box-shadow: none;
+    opacity: 0;
+    animation: fadeUpBtn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+@keyframes fadeUpBtn {
+    0% { opacity: 0; transform: translateY(60px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+#start-btn:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+    transform: scale(1.05);
+}
+
+#toast {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 1.5rem;
+    letter-spacing: 5px;
+    z-index: 30;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
+    text-shadow: none;
+    text-transform: uppercase;
+    text-align: center;
+}
+#toast.show {
+    opacity: 1;
+}
+
+#persistent-ui {
+    position: absolute;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 25;
+}
+#top-left-ui {
+    position: absolute;
+    top: 30px; left: 30px;
+    display: flex; flex-direction: column; gap: 15px;
+}
+#symbol-list {
+    display: flex; flex-direction: row; gap: 20px;
+}
+.symbol-icon {
+    position: relative;
+    font-size: 2rem;
+    opacity: 0.2;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: auto;
+    cursor: help;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.symbol-icon svg {
+    width: 32px;
+    height: 32px;
+    stroke: #fff;
+    filter: none;
+}
+.symbol-icon.active {
+    opacity: 1;
+    transform: scale(1.1);
+}
+.tooltip-text {
+    visibility: hidden;
+    width: max-content;
+    background-color: rgba(15, 15, 15, 0.95);
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 10px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-family: inherit;
+    text-shadow: none;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: absolute;
+    z-index: 10;
+    top: 140%;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(5px);
+}
+.symbol-icon:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+#top-right-ui {
+    position: absolute;
+    top: 30px; right: 30px;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-shadow: none;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+.blinking-text {
+    animation: blinker 1.5s linear infinite;
+}
+@keyframes blinker {
+    50% { opacity: 0; }
+}
+
+#timer-display {
+    position: absolute;
+    top: 60px;
+    right: 30px;
+    font-size: 5rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: none;
+    letter-spacing: 5px;
+    z-index: 30;
+    pointer-events: none;
+}
+
+#mute-btn:hover {
+    color: rgba(255, 255, 255, 1) !important;
+    transform: scale(1.1);
+}

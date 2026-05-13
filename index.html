@@ -1,12 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PEP</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>The Grasping Dark</title>
+  </head>
+  <body>
     <!-- SVG Filter for gritty visual noise -->
     <svg style="display: none;">
         <filter id="noise">
@@ -16,61 +15,7 @@
             <feBlend mode="multiply" in="composite" in2="SourceGraphic" />
         </filter>
     </svg>
-
-    <div id="game-container">
-        <canvas id="gameCanvas"></canvas>
-        <div id="noise-overlay"></div>
-        
-        <div id="start-screen">
-            <h1 class="glitch" data-text="PEP">PEP</h1>
-            <button id="start-btn">START EXPERIENCE</button>
-        </div>
-
-        <div id="interstitial-screen" style="display:none; position: absolute; z-index: 150; top:0; left:0; width:100vw; height:100vh; background:#000; color:#fff; flex-direction:column; justify-content:center; align-items:center;">
-            <h1 id="interstitial-title" style="font-size: 6rem; color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,0.9); text-align: center; letter-spacing: 6px;"></h1>
-            <p id="interstitial-subtitle" style="font-size: 1.5rem; margin-top: 30px; color: rgba(255,255,255,0.6); text-align: center; text-transform: uppercase; letter-spacing: 8px;"></p>
-        </div>
-        <div id="persistent-ui" style="display:none;">
-            <div id="top-left-ui">
-                <div id="symbol-list">
-                    <div class="symbol-icon" data-modifier="None">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14"></path><path d="M2 20h20"></path><path d="M14 12v.01"></path></svg>
-                        <span class="tooltip-text">Standard Environment</span>
-                    </div>
-                    <div class="symbol-icon" data-modifier="HiddenTimer">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path></svg>
-                        <span class="tooltip-text">Hidden Timer</span>
-                    </div>
-                    <div class="symbol-icon" data-modifier="FakeObjects">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                        <span class="tooltip-text">Illusions Present</span>
-                    </div>
-                    <div class="symbol-icon" data-modifier="AntiGravity">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg>
-                        <span class="tooltip-text">Anti-Gravity</span>
-                    </div>
-                </div>
-            </div>
-            <div id="top-right-ui" class="blinking-text">
-                LEFT CLICK TO ON THE TORCH
-            </div>
-            <div id="timer-display" style="display: none;"></div>
-        </div>
-
-        <div id="toast"></div>
-    </div>
-
-    <!-- Scripts will be imported dynamically or in correct order -->
-    <!-- Engine -->
-    <script src="js/engine/math.js"></script>
-    <script src="js/engine/audio.js"></script>
-    <script src="js/engine/input.js"></script>
-    <script src="js/engine/render.js"></script>
-    <script src="js/engine/physics.js"></script>
-    <!-- Game -->
-    <script src="js/game/entities.js"></script>
-    <script src="js/game/player.js"></script>
-    <script src="js/game/levels.js"></script>
-    <script src="js/main.js"></script>
-</body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
