@@ -22,7 +22,7 @@ export function setGameStateCallback(cb) {
 export function resetToMainMenu() {
     gameStarted = false;
     if (onStateChange) onStateChange('START_SCREEN');
-    if(player) {
+    if (player) {
         player.torchOn = false;
         window.InputSys.torchOn = false;
     }
@@ -32,13 +32,25 @@ export function resetToMainMenu() {
 export function triggerGameOver(score) {
     gameStarted = false;
     if (onStateChange) onStateChange('GAME_OVER', score);
-    if(player) {
+    if (player) {
         player.torchOn = false;
         window.InputSys.torchOn = false;
     }
     if (window.RenderSys) window.RenderSys.clear(player);
 }
 window.triggerGameOver = triggerGameOver;
+
+export function showDisclaimer() {
+    if (onStateChange) onStateChange('DISCLAIMER');
+}
+
+export function showLeaderboard() {
+    if (onStateChange) onStateChange('LEADERBOARD');
+}
+
+export function returnToStart() {
+    if (onStateChange) onStateChange('START_SCREEN');
+}
 
 export function initGame() {
     window.RenderSys.init();
@@ -47,12 +59,12 @@ export function initGame() {
 
 export function startGame() {
     if (onStateChange) onStateChange('PLAYING');
-    
+
     window.AudioSys.init();
     window.InputSys.init();
-    
+
     player = new window.Player();
-    
+
     // If they lost before, load a random level upon starting again!
     let startIndex = 0;
     if (hasLostBefore && window.LevelManager.levels && window.LevelManager.levels.length > 1) {
@@ -60,11 +72,11 @@ export function startGame() {
     } else {
         window.LevelManager.init();
     }
-    
+
     if (window.LevelManager.levels && window.LevelManager.levels.length > 0 && hasLostBefore) {
         window.LevelManager.loadLevel(startIndex);
     }
-    
+
     gameStarted = true;
     requestAnimationFrame(gameLoop);
 }
@@ -86,9 +98,9 @@ function update(dt) {
     window.LevelManager.update(dt, player);
     window.PhysicsSys.update(window.LevelManager.currentEntities, dt);
 
-    const instructionEl = document.getElementById('top-right-ui');
-    if (instructionEl) {
-        instructionEl.style.display = player.torchOn ? 'none' : 'block';
+    const instructionEl = document.getElementById('initial-activation-prompt');
+    if (instructionEl && player.torchOn) {
+        instructionEl.classList.add('playing-mode');
     }
 
     // Handle Interactions
@@ -97,7 +109,7 @@ function update(dt) {
         for (const e of window.LevelManager.currentEntities) {
             const dx = e.x - window.InputSys.x;
             const dy = e.y - window.InputSys.y;
-            if (dx*dx + dy*dy < interactRange*interactRange) {
+            if (dx * dx + dy * dy < interactRange * interactRange) {
                 e.interact(player, window.LevelManager);
             }
         }

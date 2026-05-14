@@ -1,11 +1,12 @@
 import React from 'react';
-import { startGame } from '../game/main';
+import { showDisclaimer, showLeaderboard } from '../game/main';
 
 function StartScreen() {
   return (
     <div id="start-screen">
-      <h1 className="glitch" data-text="THE GRASPING DARK">THE GRASPING DARK</h1>
-      <button id="start-btn" onClick={() => startGame()}>START EXPERIENCE</button>
+      <h1 className="glitch" data-text="ENDLESS VOID">ENDLESS VOID</h1>
+      <button id="start-btn" onClick={() => showDisclaimer()}>START EXPERIENCE</button>
+      <button id="start-btn" style={{ marginTop: '20px', fontSize: '1rem', padding: '15px 40px', background: 'transparent' }} onClick={() => showLeaderboard()}>LEADERBOARD</button>
     </div>
   );
 }
