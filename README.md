@@ -21,6 +21,8 @@
 
 But the dark is not empty. You must manage your *Sanity*, avoid dangerous illusions, and evade hostile entities that lurk just beyond the reach of your light. Featuring a sleek, tactical "terminal" aesthetic with CRT noise, glitch effects, and atmospheric design, this game tests your resource management and nerve.
 
+## 🌐 Live Demo
+👉 [Click Here to Open](https://thegraspingdark.vercel.app/)
 ---
 
 ## ✨ Features
